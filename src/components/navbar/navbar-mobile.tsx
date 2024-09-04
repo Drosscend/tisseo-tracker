@@ -21,7 +21,7 @@ export function NavbarMobile() {
       </SheetTrigger>
       <SheetContent side="left">
         <nav className="grid gap-6 text-lg font-medium">
-          <Link href="#" className="flex items-center gap-2 text-lg font-semibold">
+          <Link href="/" className="flex items-center gap-2 text-lg font-semibold">
             <TramFrontIcon className="size-6" />
             <span className="sr-only">Tisséo Tracker</span>
           </Link>
