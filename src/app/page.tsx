@@ -1,5 +1,5 @@
 import { fetchLines } from "@/lib/tisseo/fetch-lines";
-import LinesTable from "./lines-table";
+import LinesTable from "../components/tisseo/lines-table";
 
 export default async function Home() {
   const data = await fetchLines();

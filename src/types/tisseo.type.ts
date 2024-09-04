@@ -1,74 +1,138 @@
+export interface Lines {
+  expirationDate: string;
+  lines: LinesClass;
+}
+
+export interface LinesClass {
+  line: Line[];
+}
+
 export interface Line {
+  bgXmlColor: string;
+  color: string;
+  fgXmlColor: string;
+  geometry: Geometry[];
   id: string;
-  shortName: string;
+  messages: Message[];
   name: string;
   network: string;
-  color: string;
-  bgXmlColor: string;
-  fgXmlColor: string;
+  reservationMandatory: string;
+  shortName: string;
+  terminus: Terminus[];
   transportMode: TransportMode;
-  terminus?: StopArea[];
-  messages?: Message[];
-  geometry?: Geometry[];
-}
-
-export type LineType = "bus" | "tramway" | "métro" | "navette" | "téléphérique" | "Linéo" | "transport à la demande";
-
-export interface TransportMode {
-  id: string;
-  article: string;
-  name: LineType;
-}
-
-export interface StopArea {
-  id: string;
-  name: string;
-  cityName: string;
-}
-
-export interface Message {
-  id: string;
-  content: string;
-  date: string;
 }
 
 export interface Geometry {
   wkt: string;
 }
 
-export interface StopSchedule {
-  dateTime: string;
-  realTime: string;
-  line: {
-    name: string;
-    shortName: string;
-    network: string;
-    color: string;
-  };
-  destination: {
-    name: string;
-    cityName: string;
-  }[];
+export interface Message {
+  content: string;
+  id: string;
+  importanceLevel: string;
+  scope: string;
+  title: string;
+  type: string;
+  url: string;
 }
 
-export interface StopAreaWithSchedules {
+export interface Terminus {
+  cityName: string;
   id: string;
   name: string;
+}
+
+export interface TransportMode {
+  article: string;
+  id: string;
+  name: LineType;
+}
+
+export type LineType = "bus" | "tramway" | "métro" | "navette" | "téléphérique" | "Linéo" | "transport à la demande";
+
+export interface StopPoints {
+  expirationDate: string;
+  physicalStops: PhysicalStops;
+}
+
+export interface PhysicalStops {
+  physicalStop: PhysicalStop[];
+}
+
+export interface PhysicalStop {
+  destinations: Destination[];
+  handicappedCompliance: string;
+  id: string;
+  name: string;
+  operatorCodes: OperatorCodeElement[];
+  stopArea: StopArea;
+  x: string;
+  y: string;
+}
+
+export interface Destination {
   cityName: string;
-  schedules: StopSchedule[];
+  id: string;
+  line: Line[];
+  name: string;
 }
 
-export interface LineDetails {
+export interface OperatorCodeElement {
+  operatorCode: OperatorCodeOperatorCode;
+}
+
+export interface OperatorCodeOperatorCode {
+  network: string;
+  value: string;
+}
+
+export interface StopArea {
+  cityName: string;
+  id: string;
+  name: string;
+}
+
+export interface StopSchedules {
+  departures: Departures;
+  expirationDate: string;
+}
+
+export interface Departures {
+  stopAreas: StopArea[];
+}
+export interface StopArea {
+  cityId: string;
+  cityName: string;
+  id: string;
+  name: string;
+  schedules: Schedule[];
+  uniqueStopId: string;
+}
+
+export interface Schedule {
+  destination: Destination;
+  journeys: Journey[];
   line: Line;
-  schedules: StopAreaWithSchedules[];
+  stop: Stop;
 }
 
-export interface LinesResponse {
-  lines: {
-    line: Line[];
-  };
+export interface Destination {
+  cityId: string;
+  cityName: string;
+  id: string;
+  name: string;
+  way: string;
 }
 
-export interface StopSchedulesResponse {
-  stopAreas: StopAreaWithSchedules[];
+export interface Journey {
+  dateTime: Date;
+  realTime: string;
+  waiting_time: string;
+}
+
+export interface Stop {
+  handicappedCompliance: string;
+  id: string;
+  name: string;
+  operatorCode: string;
 }
