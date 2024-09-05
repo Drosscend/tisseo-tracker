@@ -1,17 +1,18 @@
-import { formatDistanceToNowStrict, isSameMinute } from "date-fns";
-import { format } from "date-fns/format";
-import { fr } from "date-fns/locale/fr";
-import { InfoIcon } from "lucide-react";
-import Markdown from "react-markdown";
 import { TisseoIcon } from "@/components/tisseo/icon";
 import { LineMessages } from "@/components/tisseo/line-messages";
 import { LineStops } from "@/components/tisseo/line-stops";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { fetchLineDetails } from "@/lib/tisseo/fetch-line-details";
+import { fetchLines } from "@/lib/tisseo/fetch-lines";
+
+export async function generateStaticParams() {
+  const lines = await fetchLines();
+
+  return lines.map((line) => ({
+    lineId: encodeURIComponent(line.id),
+  }));
+}
 
 export default async function LineDetail({ params }: { params: { lineId: string } }) {
   const lineId = decodeURIComponent(params.lineId);

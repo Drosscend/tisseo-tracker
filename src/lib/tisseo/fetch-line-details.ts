@@ -1,4 +1,5 @@
 import type { Departures, Line, Lines, PhysicalStop, StopPoints, StopSchedules } from "@/types/tisseo.type";
+import { unstable_noStore } from "next/cache";
 
 const API_KEY = process.env.TISSEO_API_KEY;
 const BASE_URL = "https://api.tisseo.fr/v2";
@@ -14,6 +15,7 @@ export interface StopPointWithSchedules {
 }
 
 export const fetchLineDetails = async (lineId: string): Promise<LineDetails> => {
+  unstable_noStore();
   if (!API_KEY) {
     throw new Error("API key is missing");
   }

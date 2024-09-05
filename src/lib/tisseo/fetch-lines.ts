@@ -1,4 +1,4 @@
-import { Line, LinesResponse } from "@/types/tisseo.type";
+import type { Line, Lines } from "@/types/tisseo.type";
 
 const API_KEY = process.env.TISSEO_API_KEY;
 const BASE_URL = "https://api.tisseo.fr/v2";
@@ -23,7 +23,7 @@ export const fetchLines = async (displayTerminus: boolean = false, displayGeomet
       throw new Error(`Error fetching lines: ${response.statusText}`);
     }
 
-    const data: LinesResponse = await response.json();
+    const data: Lines = await response.json();
     return data.lines.line;
   } catch (error) {
     console.error(error);
