@@ -1,4 +1,5 @@
 import { TisseoIcon } from "@/components/tisseo/icon";
+import { LineError } from "@/components/tisseo/line-error";
 import { LineMessages } from "@/components/tisseo/line-messages";
 import { LineStops } from "@/components/tisseo/line-stops";
 import { ToulouseMap } from "@/components/tisseo/toulouse-map";
@@ -15,9 +16,22 @@ export async function generateStaticParams() {
   }));
 }
 
+async function getLineData(lineId: string) {
+  try {
+    return await fetchLineDetails(lineId);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des détails de la ligne:", error);
+    return null;
+  }
+}
+
 export default async function LineDetail({ params }: { params: { lineId: string } }) {
   const lineId = decodeURIComponent(params.lineId);
-  const data = await fetchLineDetails(lineId);
+  const data = await getLineData(lineId);
+
+  if (!data) {
+    return <LineError />;
+  }
 
   return (
     <div className="mx-auto grid w-full max-w-6xl gap-2">

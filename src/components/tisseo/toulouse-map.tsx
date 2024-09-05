@@ -79,7 +79,7 @@ export function ToulouseMap({ line }: { line: LineDetails["line"] }) {
               </div>
               <div className="flex items-center space-x-2">
                 <TisseoIcon mode={line.transportMode.name} color={line.bgXmlColor} className="size-5" />
-                <Badge variant="secondary">Line {hoveredFeature.properties.shortName}</Badge>
+                <Badge variant="secondary">Ligne {hoveredFeature.properties.shortName}</Badge>
               </div>
             </CardContent>
           </Card>
