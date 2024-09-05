@@ -1,6 +1,7 @@
 import { TisseoIcon } from "@/components/tisseo/icon";
 import { LineMessages } from "@/components/tisseo/line-messages";
 import { LineStops } from "@/components/tisseo/line-stops";
+import { ToulouseMap } from "@/components/tisseo/toulouse-map";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { fetchLineDetails } from "@/lib/tisseo/fetch-line-details";
@@ -31,15 +32,20 @@ export default async function LineDetail({ params }: { params: { lineId: string 
         <TabsList>
           <TabsTrigger value="messages">Messages</TabsTrigger>
           <TabsTrigger value="stops">Arrêts et Horaires</TabsTrigger>
+          <TabsTrigger value="map">Carte</TabsTrigger>
           <TabsTrigger value="test">test</TabsTrigger>
         </TabsList>
 
         <TabsContent value="messages">
-          <LineMessages line={data.line} stopPointsWithSchedules={data.stopPointsWithSchedules} />
+          <LineMessages line={data.line} />
         </TabsContent>
 
         <TabsContent value="stops">
-          <LineStops line={data.line} stopPointsWithSchedules={data.stopPointsWithSchedules} />
+          <LineStops stopPointsWithSchedules={data.stopPointsWithSchedules} />
+        </TabsContent>
+
+        <TabsContent value="map">
+          <ToulouseMap line={data.line} />
         </TabsContent>
 
         <TabsContent value="test">

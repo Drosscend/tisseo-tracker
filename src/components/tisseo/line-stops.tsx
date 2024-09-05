@@ -6,7 +6,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import type { LineDetails } from "@/lib/tisseo/fetch-line-details";
 
-export function LineStops({ stopPointsWithSchedules }: LineDetails) {
+export function LineStops({ stopPointsWithSchedules }: { stopPointsWithSchedules: LineDetails["stopPointsWithSchedules"] }) {
   return (
     <Card>
       <CardHeader>
