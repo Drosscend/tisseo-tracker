@@ -103,6 +103,7 @@ export interface StopSchedules {
 export interface Departures {
   stopAreas: StopArea[];
 }
+
 export interface StopArea {
   cityId: string;
   cityName: string;

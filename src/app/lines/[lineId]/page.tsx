@@ -6,8 +6,8 @@ import { LineStops } from "@/components/tisseo/line-stops";
 import { ToulouseMap } from "@/components/tisseo/toulouse-map/toulouse-map";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { fetchLineDetails } from "@/lib/tisseo/fetch-line-details";
 import { fetchLines } from "@/lib/tisseo/fetch-lines";
+import { getLineDetails } from "@/lib/tisseo/get-line-details";
 
 export async function generateStaticParams() {
   const lines = await fetchLines();
@@ -19,7 +19,7 @@ export async function generateStaticParams() {
 
 async function getLineData(lineId: string) {
   try {
-    return await fetchLineDetails(lineId);
+    return await getLineDetails(lineId);
   } catch (error) {
     console.error("Erreur lors de la récupération des détails de la ligne:", error);
     return null;

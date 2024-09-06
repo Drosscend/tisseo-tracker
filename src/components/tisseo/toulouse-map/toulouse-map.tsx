@@ -2,7 +2,7 @@
 
 import { GeoJson, Map, Overlay } from "pigeon-maps";
 import { useState } from "react";
-import type { LineDetails } from "@/lib/tisseo/fetch-line-details";
+import type { LineDetails } from "@/lib/tisseo/get-line-details";
 import { parseWKT } from "@/lib/tisseo/map";
 import { LineInfoCard } from "./line-info-card";
 import { StopMarker } from "./stop-marker";

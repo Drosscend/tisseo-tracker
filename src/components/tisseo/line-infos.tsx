@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import type { LineDetails } from "@/lib/tisseo/fetch-line-details";
+import type { LineDetails } from "@/lib/tisseo/get-line-details";
 
 export function LineInfos({ line }: { line: LineDetails["line"] }) {
   return (

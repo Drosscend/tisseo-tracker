@@ -1,6 +1,6 @@
 import { MapPinIcon } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import type { LineDetails } from "@/lib/tisseo/fetch-line-details";
+import type { LineDetails } from "@/lib/tisseo/get-line-details";
 import { StopTooltipContent } from "./stop-tooltip-content";
 
 interface StopMarkerProps {

@@ -12,24 +12,24 @@ export const fetchStopPoints = async (
     throw new Error("API key is missing");
   }
 
+  const params = new URLSearchParams({
+    key: API_KEY,
+    lineId,
+    displayCoordXY: displayCoordXY ? "1" : "0",
+    displayDestinations: displayDestinations ? "1" : "0",
+  });
+
+  const url = `${BASE_URL}/stop_points.json?${params.toString()}`;
+
   try {
-    // Fetch stop points for the line
-    const stopPointsParams = new URLSearchParams({
-      key: API_KEY,
-      lineId,
-      displayCoordXY: displayCoordXY ? "1" : "0",
-      displayDestinations: displayDestinations ? "1" : "0",
-    });
+    const response = await fetch(url);
 
-    const stopPointsUrl = `${BASE_URL}/stop_points.json?${stopPointsParams.toString()}`;
-    const stopPointsResponse = await fetch(stopPointsUrl);
-
-    if (!stopPointsResponse.ok) {
-      throw new Error(`Error fetching stop points: ${stopPointsResponse.statusText}`);
+    if (!response.ok) {
+      throw new Error(`Error fetching stop points: ${response.statusText}`);
     }
 
-    const stopPointsData: StopPoints = await stopPointsResponse.json();
-    return stopPointsData.physicalStops.physicalStop;
+    const data: StopPoints = await response.json();
+    return data.physicalStops.physicalStop;
   } catch (error) {
     console.error("Failed to fetch stop points", error);
     throw error;

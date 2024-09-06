@@ -2,7 +2,7 @@ import { AccessibilityIcon, ArrowRightIcon, InfoIcon, MapPinIcon } from "lucide-
 import { TisseoIcon } from "@/components/tisseo/icon";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import type { LineDetails } from "@/lib/tisseo/fetch-line-details";
+import type { LineDetails } from "@/lib/tisseo/get-line-details";
 
 interface StopTooltipContentProps {
   stop: LineDetails["stopPointsWithSchedules"][0];

@@ -33,7 +33,7 @@ export const fetchLines = async (
     const data: Lines = await response.json();
     return data.lines.line;
   } catch (error) {
-    console.error(error);
+    console.error("Failed to fetch lines", error);
     throw error;
   }
 };

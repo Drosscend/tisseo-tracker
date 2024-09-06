@@ -2,7 +2,7 @@ import { InfoIcon } from "lucide-react";
 import Markdown from "react-markdown";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import type { LineDetails } from "@/lib/tisseo/fetch-line-details";
+import type { LineDetails } from "@/lib/tisseo/get-line-details";
 
 export function LineMessages({ line }: { line: LineDetails["line"] }) {
   return (
