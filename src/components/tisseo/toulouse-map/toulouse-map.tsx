@@ -1,15 +1,17 @@
 "use client";
 
-import { GeoJson, Map, Overlay, ZoomControl } from "pigeon-maps";
+import { GeoJson, Map, Overlay } from "pigeon-maps";
 import { useState } from "react";
 import type { LineDetails } from "@/lib/tisseo/fetch-line-details";
 import { parseWKT } from "@/lib/tisseo/map";
 import { LineInfoCard } from "./line-info-card";
 import { StopMarker } from "./stop-marker";
+import { ZoomControl } from "./zoom-control";
 
 export function ToulouseMap({ line, stopPointsWithSchedules }: LineDetails) {
   const [hoveredFeature, setHoveredFeature] = useState<any>(null);
   const [zoom, setZoom] = useState(11);
+  const [center, setCenter] = useState<[number, number]>([43.600718, 1.393456]);
 
   const coordinates = parseWKT(line.geometry[0].wkt);
   const lineStringCoordinates = coordinates.map((coord) => [coord.lon, coord.lat]);
@@ -31,9 +33,25 @@ export function ToulouseMap({ line, stopPointsWithSchedules }: LineDetails) {
     ],
   };
 
+  const handleZoomIn = () => {
+    setZoom((prevZoom) => Math.min(prevZoom + 1, 18));
+  };
+
+  const handleZoomOut = () => {
+    setZoom((prevZoom) => Math.max(prevZoom - 1, 1));
+  };
+
   return (
     <div className="relative">
-      <Map height={600} defaultCenter={[43.600718, 1.393456]} defaultZoom={11} onBoundsChanged={({ zoom }) => setZoom(zoom)}>
+      <Map
+        height={600}
+        defaultCenter={center}
+        zoom={zoom}
+        onBoundsChanged={({ center, zoom }) => {
+          setCenter(center);
+          setZoom(zoom);
+        }}
+      >
         <GeoJson
           data={geoJsonData}
           styleCallback={(feature: { geometry: { type: string } }, hover: boolean) => {
@@ -58,7 +76,7 @@ export function ToulouseMap({ line, stopPointsWithSchedules }: LineDetails) {
             <StopMarker stop={stop} line={line} zoom={zoom} />
           </Overlay>
         ))}
-        <ZoomControl />
+        <ZoomControl onZoomIn={handleZoomIn} onZoomOut={handleZoomOut} />
       </Map>
       {hoveredFeature && (
         <div className="absolute right-4 top-4">

@@ -1,6 +1,7 @@
-import type { Departures, Line, PhysicalStop, StopPoints, StopSchedules } from "@/types/tisseo.type";
+import type { Departures, Line, PhysicalStop, StopSchedules } from "@/types/tisseo.type";
 import { unstable_noStore } from "next/cache";
 import { fetchLines } from "@/lib/tisseo/fetch-lines";
+import { fetchStopPoints } from "@/lib/tisseo/fetch-stop_points";
 
 const API_KEY = process.env.TISSEO_API_KEY;
 const BASE_URL = "https://api.tisseo.fr/v2";
@@ -22,26 +23,12 @@ export const fetchLineDetails = async (lineId: string): Promise<LineDetails> => 
   }
 
   try {
+    // Fetch line details
     const lineData = await fetchLines(lineId, true, false, true);
     const line = lineData[0];
 
     // Fetch stop points for the line
-    const stopPointsParams = new URLSearchParams({
-      key: API_KEY,
-      lineId,
-      displayCoordXY: "1",
-      displayDestinations: "1",
-    });
-
-    const stopPointsUrl = `${BASE_URL}/stop_points.json?${stopPointsParams.toString()}`;
-    const stopPointsResponse = await fetch(stopPointsUrl);
-
-    if (!stopPointsResponse.ok) {
-      throw new Error(`Error fetching stop points: ${stopPointsResponse.statusText}`);
-    }
-
-    const stopPointsData: StopPoints = await stopPointsResponse.json();
-    const stopPoints = stopPointsData.physicalStops.physicalStop;
+    const stopPoints = await fetchStopPoints(lineId, true, true);
 
     // Fetch schedules for each stop point
     const stopPointsWithSchedules: StopPointWithSchedules[] = [];
