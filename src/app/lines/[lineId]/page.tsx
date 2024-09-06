@@ -3,15 +3,6 @@ import { getLineData } from "@/components/tisseo/line-details/get-line-data.acti
 import LineDetail from "@/components/tisseo/line-details/line-detail";
 import { LineDetailFallback } from "@/components/tisseo/line-details/line-detail-fallback";
 import { LineError } from "@/components/tisseo/line-details/line-error";
-import { fetchLines } from "@/lib/tisseo/fetch-lines";
-
-export async function generateStaticParams() {
-  const lines = await fetchLines();
-
-  return lines.map((line) => ({
-    lineId: encodeURIComponent(line.id),
-  }));
-}
 
 async function LineDetailWrapper({ lineId }: { lineId: string }) {
   const data = await getLineData(lineId);
