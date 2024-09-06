@@ -12,7 +12,7 @@ export function LineError() {
           <h1 className="mb-2 text-4xl font-bold">{"Oups !"}</h1>
           <p className="text-muted-foreground mb-8 text-xl">{"Il semble que cette ligne n'existe pas sur notre plan."}</p>
           <Button asChild>
-            <Link href="/">{"Retour à l'Accueil"}</Link>
+            <Link href="/public">{"Retour à l'Accueil"}</Link>
           </Button>
         </div>
       </CardContent>
