@@ -63,6 +63,9 @@ export interface PhysicalStop {
   destinations: Destination[];
   handicappedCompliance: string;
   id: string;
+  lines: {
+    short_name: string;
+  }[];
   name: string;
   operatorCodes: OperatorCodeElement[];
   stopArea: StopArea;

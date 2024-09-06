@@ -1,5 +1,6 @@
-import type { Departures, Line, Lines, PhysicalStop, StopPoints, StopSchedules } from "@/types/tisseo.type";
+import type { Departures, Line, PhysicalStop, StopPoints, StopSchedules } from "@/types/tisseo.type";
 import { unstable_noStore } from "next/cache";
+import { fetchLines } from "@/lib/tisseo/fetch-lines";
 
 const API_KEY = process.env.TISSEO_API_KEY;
 const BASE_URL = "https://api.tisseo.fr/v2";
@@ -21,24 +22,8 @@ export const fetchLineDetails = async (lineId: string): Promise<LineDetails> => 
   }
 
   try {
-    // Fetch line details including messages and geometry
-    const lineParams = new URLSearchParams({
-      key: API_KEY,
-      lineId,
-      displayMessages: "1",
-      displayGeometry: "1",
-      displayTerminus: "1",
-    });
-
-    const lineUrl = `${BASE_URL}/lines.json?${lineParams.toString()}`;
-    const lineResponse = await fetch(lineUrl);
-
-    if (!lineResponse.ok) {
-      throw new Error(`Error fetching line details: ${lineResponse.statusText}`);
-    }
-
-    const lineData: Lines = await lineResponse.json();
-    const line = lineData.lines.line[0];
+    const lineData = await fetchLines(lineId, true, false, true);
+    const line = lineData[0];
 
     // Fetch stop points for the line
     const stopPointsParams = new URLSearchParams({
