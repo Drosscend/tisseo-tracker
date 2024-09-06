@@ -75,7 +75,6 @@ export default function LineDetail({ initialData, lineId }: LineDetailProps) {
           <TabsTrigger value="infos">Infos</TabsTrigger>
           <TabsTrigger value="stops">Arrêts et Horaires</TabsTrigger>
           <TabsTrigger value="map">Carte</TabsTrigger>
-          <TabsTrigger value="test">test</TabsTrigger>
         </TabsList>
         <TabsContent value="infos" className="flex flex-col gap-2">
           <LineInfos line={data.line} />
@@ -86,16 +85,6 @@ export default function LineDetail({ initialData, lineId }: LineDetailProps) {
         </TabsContent>
         <TabsContent value="map">
           <ToulouseMap line={data.line} stopPointsWithSchedules={data.stopPointsWithSchedules} />
-        </TabsContent>
-        <TabsContent value="test">
-          <Card>
-            <CardHeader>
-              <CardTitle>Test</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <pre>{JSON.stringify(data, null, 2)}</pre>
-            </CardContent>
-          </Card>
         </TabsContent>
       </Tabs>
     </div>

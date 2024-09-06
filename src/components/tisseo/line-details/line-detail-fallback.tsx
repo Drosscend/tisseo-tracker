@@ -1,5 +1,10 @@
+import { formatDistanceToNowStrict, isSameMinute } from "date-fns";
+import { format } from "date-fns/format";
+import { fr } from "date-fns/locale/fr";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export function LineDetailFallback() {
@@ -17,7 +22,6 @@ export function LineDetailFallback() {
           <TabsTrigger value="infos">Infos</TabsTrigger>
           <TabsTrigger value="stops">Arrêts et Horaires</TabsTrigger>
           <TabsTrigger value="map">Carte</TabsTrigger>
-          <TabsTrigger value="test">test</TabsTrigger>
         </TabsList>
         <TabsContent value="infos" className="flex flex-col gap-2">
           <Card>
@@ -46,35 +50,44 @@ export function LineDetailFallback() {
         </TabsContent>
         <TabsContent value="stops">
           <Card>
+            <CardHeader>
+              <CardTitle>Arrêts et Horaires</CardTitle>
+            </CardHeader>
             <CardContent>
-              <div className="space-y-2">
-                {[...Array(5)].map((_, index) => (
-                  <div key={index} className="flex items-center space-x-2">
-                    <Skeleton className="size-6 rounded-full" />
-                    <Skeleton className="h-4 w-40" />
-                    <Skeleton className="h-4 w-20" />
+              <ScrollArea className="h-[600px]">
+                {[...Array(10)].map((_, index) => (
+                  <div key={index} className="mb-6">
+                    <h3 className="mb-2 text-lg font-semibold">
+                      <Skeleton className="h-6 w-60" />
+                    </h3>
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Heure</TableHead>
+                          <TableHead>{"Temps d'attente"}</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {[...Array(3)].map((_, index) => (
+                          <TableRow key={index}>
+                            <TableCell>
+                              <Skeleton className="h-4 w-16" />
+                            </TableCell>
+                            <TableCell>
+                              <Skeleton className="h-4 w-16" />
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
                   </div>
                 ))}
-              </div>
+              </ScrollArea>
             </CardContent>
           </Card>
         </TabsContent>
         <TabsContent value="map">
-          <Card>
-            <CardContent>
-              <Skeleton className="h-[400px] w-full" />
-            </CardContent>
-          </Card>
-        </TabsContent>
-        <TabsContent value="test">
-          <Card>
-            <CardHeader>
-              <CardTitle>Test</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Skeleton className="h-40 w-full" />
-            </CardContent>
-          </Card>
+          <Skeleton className="h-[600px] w-full" />
         </TabsContent>
       </Tabs>
     </div>
