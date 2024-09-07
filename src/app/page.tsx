@@ -5,7 +5,7 @@ export default async function Home() {
   const data = await fetchLines();
   return (
     <div className="mx-auto grid w-full max-w-6xl gap-2">
-      <h1 className="text-3xl font-semibold">Home</h1>
+      <h1 className="text-3xl font-semibold">Accueil</h1>
       <LinesTable lines={data} />
     </div>
   );
