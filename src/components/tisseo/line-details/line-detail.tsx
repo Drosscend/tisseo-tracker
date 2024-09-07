@@ -5,8 +5,8 @@ import { TisseoIcon } from "@/components/tisseo/icon";
 import { LineDetailFallback } from "@/components/tisseo/line-details/line-detail-fallback";
 import { LineError } from "@/components/tisseo/line-details/line-error";
 import { LineInfos } from "@/components/tisseo/line-details/line-infos";
-import { LineMessages } from "@/components/tisseo/line-details/line-messages";
-import { LineStops } from "@/components/tisseo/line-details/line-stops";
+import { Messages } from "@/components/tisseo/line-details/messages";
+import { LineStops } from "@/components/tisseo/line-stops";
 import { ToulouseMap } from "@/components/tisseo/toulouse-map/toulouse-map";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { LineDetails } from "@/lib/tisseo/get-line-details";
@@ -43,7 +43,7 @@ export default function LineDetail({ initialData, lineId }: LineDetailProps) {
         </TabsList>
         <TabsContent value="infos" className="flex flex-col gap-2">
           <LineInfos line={data.line} />
-          <LineMessages line={data.line} />
+          <Messages messages={data.line.messages} />
         </TabsContent>
         <TabsContent value="stops">
           <LineStops stopPointsWithSchedules={data.stopPointsWithSchedules} />

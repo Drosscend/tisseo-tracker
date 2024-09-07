@@ -1,19 +1,20 @@
-import { InfoIcon } from "lucide-react";
+import type { Message } from "@/types/tisseo.type";
+import { InfoIcon, TriangleAlertIcon } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import type { LineDetails } from "@/lib/tisseo/get-line-details";
+import { cn } from "@/lib/utils";
 
-export function LineMessages({ line }: { line: LineDetails["line"] }) {
+export function Messages({ messages }: { messages: Message[] }) {
   return (
     <Card>
       <CardHeader>
         <CardTitle>Messages</CardTitle>
       </CardHeader>
       <CardContent>
-        {line.messages && line.messages.length > 0 ? (
-          line.messages.map((message, index) => (
-            <Alert key={index} className="mb-4">
-              <InfoIcon className="size-4" />
+        {messages && messages.length > 0 ? (
+          messages.map((message, index) => (
+            <Alert key={index} className={cn("mb-2", message.importanceLevel === "important" ? "bg-red-100" : "bg-blue-100")}>
+              {message.importanceLevel === "important" ? <TriangleAlertIcon className="size-4" /> : <InfoIcon className="size-4" />}
               <AlertTitle>{message.title}</AlertTitle>
               <AlertDescription dangerouslySetInnerHTML={{ __html: message.content }} />
             </Alert>

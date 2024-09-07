@@ -1,4 +1,4 @@
-export interface Lines {
+export interface LinesResponse {
   expirationDate: string;
   lines: LinesClass;
 }
@@ -29,12 +29,15 @@ export interface Geometry {
 export interface Message {
   content: string;
   id: string;
-  importanceLevel: string;
-  scope: string;
+  importanceLevel: MessageImportanceLevel;
+  scope: MessageScope;
   title: string;
   type: string;
   url: string;
 }
+
+export type MessageImportanceLevel = "important" | "normal";
+export type MessageScope = "line" | "event" | "global";
 
 export interface Terminus {
   cityName: string;
@@ -50,7 +53,7 @@ export interface TransportMode {
 
 export type LineType = "bus" | "tramway" | "métro" | "navette" | "téléphérique" | "Linéo" | "transport à la demande";
 
-export interface StopPoints {
+export interface StopPointsResponse {
   expirationDate: string;
   physicalStops: PhysicalStops;
 }
@@ -95,9 +98,9 @@ export interface StopArea {
   name: string;
 }
 
-export interface StopSchedules {
-  departures: Departures;
+export interface StopSchedulesResponse {
   expirationDate: string;
+  departures: Departures;
 }
 
 export interface Departures {
@@ -139,4 +142,14 @@ export interface Stop {
   id: string;
   name: string;
   operatorCode: string;
+}
+
+export interface MessagesResponse {
+  expirationDate: string;
+  messages: Messages[];
+}
+
+export interface Messages {
+  message: Message;
+  lines?: Line[];
 }

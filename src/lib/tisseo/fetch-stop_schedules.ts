@@ -1,4 +1,4 @@
-import type { StopArea, StopSchedules } from "@/types/tisseo.type";
+import type { StopArea, StopSchedulesResponse } from "@/types/tisseo.type";
 import { unstable_noStore } from "next/cache";
 
 const API_KEY = process.env.TISSEO_API_KEY;
@@ -32,7 +32,7 @@ export const fetchStopSchedules = async (
       throw new Error(`Error fetching schedules: ${response.statusText}`);
     }
 
-    const data: StopSchedules = await response.json();
+    const data: StopSchedulesResponse = await response.json();
     return data.departures.stopAreas;
   } catch (error) {
     console.error("Failed to stop schedules", error);

@@ -1,4 +1,4 @@
-import type { PhysicalStop, StopPoints } from "@/types/tisseo.type";
+import type { PhysicalStop, StopPointsResponse } from "@/types/tisseo.type";
 
 const API_KEY = process.env.TISSEO_API_KEY;
 const BASE_URL = "https://api.tisseo.fr/v2";
@@ -28,7 +28,7 @@ export const fetchStopPoints = async (
       throw new Error(`Error fetching stop points: ${response.statusText}`);
     }
 
-    const data: StopPoints = await response.json();
+    const data: StopPointsResponse = await response.json();
     return data.physicalStops.physicalStop;
   } catch (error) {
     console.error("Failed to fetch stop points", error);
