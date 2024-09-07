@@ -1,5 +1,4 @@
 import { InfoIcon } from "lucide-react";
-import Markdown from "react-markdown";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { LineDetails } from "@/lib/tisseo/get-line-details";
@@ -16,9 +15,7 @@ export function LineMessages({ line }: { line: LineDetails["line"] }) {
             <Alert key={index} className="mb-4">
               <InfoIcon className="size-4" />
               <AlertTitle>{message.title}</AlertTitle>
-              <AlertDescription>
-                <Markdown>{message.content}</Markdown>
-              </AlertDescription>
+              <AlertDescription dangerouslySetInnerHTML={{ __html: message.content }} />
             </Alert>
           ))
         ) : (

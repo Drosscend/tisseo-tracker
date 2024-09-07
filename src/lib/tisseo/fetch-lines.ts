@@ -19,6 +19,7 @@ export const fetchLines = async (
     displayMessages: displayMessages ? "1" : "0",
     displayTerminus: displayTerminus ? "1" : "0",
     displayGeometry: displayGeometry ? "1" : "0",
+    contentFormat: "html",
   });
 
   const url = `${BASE_URL}/lines.json?${params.toString()}`;
