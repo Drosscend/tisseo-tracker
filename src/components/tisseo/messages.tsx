@@ -13,7 +13,10 @@ export function Messages({ messages }: { messages: Message[] }) {
       <CardContent>
         {messages && messages.length > 0 ? (
           messages.map((message, index) => (
-            <Alert key={index} className={cn("mb-2", message.importanceLevel === "important" ? "bg-red-100" : "bg-blue-100")}>
+            <Alert
+              key={index}
+              className={cn("mb-2", message.importanceLevel === "important" ? "bg-red-100 dark:bg-red-900" : "bg-blue-100 dark:bg-blue-900")}
+            >
               {message.importanceLevel === "important" ? <TriangleAlertIcon className="size-4" /> : <InfoIcon className="size-4" />}
               <AlertTitle>{message.title}</AlertTitle>
               <AlertDescription dangerouslySetInnerHTML={{ __html: message.content }} />

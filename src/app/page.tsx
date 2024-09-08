@@ -1,4 +1,4 @@
-import { Messages } from "@/components/tisseo/line-details/messages";
+import { Messages } from "@/components/tisseo/messages";
 import { fetchLines } from "@/lib/tisseo/fetch-lines";
 import { fetchMessages } from "@/lib/tisseo/fetch-messages";
 import LinesTable from "../components/tisseo/lines-table";
