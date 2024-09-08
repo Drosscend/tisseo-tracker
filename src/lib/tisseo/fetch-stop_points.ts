@@ -1,13 +1,14 @@
 import type { PhysicalStop, StopPointsResponse } from "@/types/tisseo.type";
+import { cachedFetch } from "@/lib/tisseo/fetch";
 
 const API_KEY = process.env.TISSEO_API_KEY;
 const BASE_URL = "https://api.tisseo.fr/v2";
 
-export const fetchStopPoints = async (
+export async function fetchStopPoints(
   lineId: string,
   displayCoordXY: boolean = false,
   displayDestinations: boolean = false
-): Promise<PhysicalStop[]> => {
+): Promise<PhysicalStop[]> {
   if (!API_KEY) {
     throw new Error("API key is missing");
   }
@@ -22,16 +23,17 @@ export const fetchStopPoints = async (
   const url = `${BASE_URL}/stop_points.json?${params.toString()}`;
 
   try {
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      throw new Error(`Error fetching stop points: ${response.statusText}`);
-    }
-
-    const data: StopPointsResponse = await response.json();
+    const data = await cachedFetch<StopPointsResponse>(
+      url,
+      {},
+      {
+        tags: ["stop_points"],
+        revalidate: 60,
+      }
+    );
     return data.physicalStops.physicalStop;
   } catch (error) {
     console.error("Failed to fetch stop points", error);
     throw error;
   }
-};
+}

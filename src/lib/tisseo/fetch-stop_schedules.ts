@@ -1,16 +1,15 @@
 import type { StopArea, StopSchedulesResponse } from "@/types/tisseo.type";
-import { unstable_noStore } from "next/cache";
+import { cachedFetch } from "@/lib/tisseo/fetch";
 
 const API_KEY = process.env.TISSEO_API_KEY;
 const BASE_URL = "https://api.tisseo.fr/v2";
 
-export const fetchStopSchedules = async (
+export async function fetchStopSchedules(
   stopsList: string,
   displayRealTime: boolean = false,
   timetableByArea: boolean = false,
   number: number = 3
-): Promise<StopArea[]> => {
-  unstable_noStore();
+): Promise<StopArea[]> {
   if (!API_KEY) {
     throw new Error("API key is missing");
   }
@@ -26,16 +25,18 @@ export const fetchStopSchedules = async (
   const url = `${BASE_URL}/stops_schedules.json?${params.toString()}`;
 
   try {
-    const response = await fetch(url);
+    const data = await cachedFetch<StopSchedulesResponse>(
+      url,
+      {},
+      {
+        tags: ["stops_schedules"],
+        revalidate: 60,
+      }
+    );
 
-    if (!response.ok) {
-      throw new Error(`Error fetching schedules: ${response.statusText}`);
-    }
-
-    const data: StopSchedulesResponse = await response.json();
     return data.departures.stopAreas;
   } catch (error) {
     console.error("Failed to stop schedules", error);
     throw error;
   }
-};
+}

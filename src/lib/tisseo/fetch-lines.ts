@@ -1,14 +1,15 @@
 import type { Line, LinesResponse } from "@/types/tisseo.type";
+import { cachedFetch } from "@/lib/tisseo/fetch";
 
 const API_KEY = process.env.TISSEO_API_KEY;
 const BASE_URL = "https://api.tisseo.fr/v2";
 
-export const fetchLines = async (
+export async function fetchLines(
   lineId?: string,
   displayMessages: boolean = false,
   displayTerminus: boolean = false,
   displayGeometry: boolean = false
-): Promise<Line[]> => {
+): Promise<Line[]> {
   if (!API_KEY) {
     throw new Error("API key is missing");
   }
@@ -25,16 +26,17 @@ export const fetchLines = async (
   const url = `${BASE_URL}/lines.json?${params.toString()}`;
 
   try {
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      throw new Error(`Error fetching lines: ${response.statusText}`);
-    }
-
-    const data: LinesResponse = await response.json();
+    const data = await cachedFetch<LinesResponse>(
+      url,
+      {},
+      {
+        tags: ["lines"],
+        revalidate: 60,
+      }
+    );
     return data.lines.line;
   } catch (error) {
     console.error("Failed to fetch lines", error);
     throw error;
   }
-};
+}

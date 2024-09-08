@@ -1,5 +1,9 @@
-export interface LinesResponse {
-  expirationDate: string;
+export interface ApiResponse {
+  expirationDate?: string;
+  [key: string]: unknown;
+}
+
+export interface LinesResponse extends ApiResponse {
   lines: LinesClass;
 }
 
@@ -53,8 +57,7 @@ export interface TransportMode {
 
 export type LineType = "bus" | "tramway" | "métro" | "navette" | "téléphérique" | "Linéo" | "transport à la demande";
 
-export interface StopPointsResponse {
-  expirationDate: string;
+export interface StopPointsResponse extends ApiResponse {
   physicalStops: PhysicalStops;
 }
 
@@ -98,8 +101,7 @@ export interface StopArea {
   name: string;
 }
 
-export interface StopSchedulesResponse {
-  expirationDate: string;
+export interface StopSchedulesResponse extends ApiResponse {
   departures: Departures;
 }
 
@@ -144,8 +146,7 @@ export interface Stop {
   operatorCode: string;
 }
 
-export interface MessagesResponse {
-  expirationDate: string;
+export interface MessagesResponse extends ApiResponse {
   messages: Messages[];
 }
 

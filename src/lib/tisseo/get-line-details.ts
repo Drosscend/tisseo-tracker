@@ -24,7 +24,7 @@ export const getLineDetails = async (lineId: string): Promise<LineDetails> => {
 
     // Prepare the stopsList parameter
     const stopsList = stopPoints.map((stop) => `${stop.id}|${lineId}`).join(",");
-    // Fetch stop schedules for the
+    // Fetch stop schedules for the line
     const stopSchedulesData = await fetchStopSchedules(stopsList, true, true);
 
     // Process the received data

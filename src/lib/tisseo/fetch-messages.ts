@@ -1,11 +1,10 @@
 import type { Messages, MessagesResponse } from "@/types/tisseo.type";
-import { unstable_noStore } from "next/cache";
+import { cachedFetch } from "@/lib/tisseo/fetch";
 
 const API_KEY = process.env.TISSEO_API_KEY;
 const BASE_URL = "https://api.tisseo.fr/v2";
 
-export const fetchMessages = async (displayImportantOnly: boolean = false): Promise<Messages[]> => {
-  unstable_noStore();
+export async function fetchMessages(displayImportantOnly: boolean = false): Promise<Messages[]> {
   if (!API_KEY) {
     throw new Error("API key is missing");
   }
@@ -19,16 +18,17 @@ export const fetchMessages = async (displayImportantOnly: boolean = false): Prom
   const url = `${BASE_URL}/messages.json?${params.toString()}`;
 
   try {
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      throw new Error(`Error fetching messages: ${response.statusText}`);
-    }
-
-    const data: MessagesResponse = await response.json();
+    const data = await cachedFetch<MessagesResponse>(
+      url,
+      {},
+      {
+        tags: ["messages"],
+        revalidate: 60,
+      }
+    );
     return data.messages;
   } catch (error) {
     console.error("Failed to fetch messages", error);
     throw error;
   }
-};
+}
