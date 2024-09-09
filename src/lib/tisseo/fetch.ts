@@ -1,4 +1,4 @@
-import { ApiResponse } from "@/types/tisseo.type";
+import type { ApiResponse } from "@/types/tisseo.type";
 import { revalidateTag, unstable_cache } from "next/cache";
 
 // Simple hash function (unchanged)
