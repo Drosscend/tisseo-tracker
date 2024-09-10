@@ -1,7 +1,7 @@
 "use client";
 
 import { GeoJson, Map, Overlay } from "pigeon-maps";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { StopInfoCard } from "@/components/tisseo/toulouse-map/stop-info-card";
 import type { LineDetails, StopPointWithSchedules } from "@/lib/tisseo/get-line-details";
 import { parseWKT } from "@/lib/tisseo/map";
@@ -14,37 +14,47 @@ interface ToulouseMapProps {
   stopPointsWithSchedules: StopPointWithSchedules[];
 }
 
-export function ToulouseMap({ line, stopPointsWithSchedules }: ToulouseMapProps) {
+export function TisseoMap({ line, stopPointsWithSchedules }: ToulouseMapProps) {
   const [hoveredLine, setHoveredLine] = useState<null | LineDetails["line"]>(null);
   const [hoveredStop, setHoveredStop] = useState<null | StopPointWithSchedules>(null);
   const [zoom, setZoom] = useState<number>(13);
-  const [center, setCenter] = useState<[number, number]>([43.600718, 1.393456]);
 
-  const coordinates = parseWKT(line.geometry[0].wkt);
-  const lineStringCoordinates = coordinates.map((coord) => [coord.lon, coord.lat]);
+  const { center, geoJsonData } = useMemo(() => {
+    const coordinates = parseWKT(line.geometry[0].wkt);
+    const lineStringCoordinates = coordinates.map((coord) => [coord.lon, coord.lat]);
 
-  const geoJsonData = {
-    type: "FeatureCollection",
-    features: [
-      {
-        type: "Feature",
-        geometry: {
-          type: "LineString",
-          coordinates: lineStringCoordinates,
-        },
-        properties: {
-          name: line.name,
-          shortName: line.shortName,
-        },
+    // Calculate the center of the line
+    const centerLon = lineStringCoordinates.reduce((sum, coord) => sum + coord[0], 0) / lineStringCoordinates.length;
+    const centerLat = lineStringCoordinates.reduce((sum, coord) => sum + coord[1], 0) / lineStringCoordinates.length;
+
+    return {
+      center: [centerLat, centerLon] as [number, number],
+      geoJsonData: {
+        type: "FeatureCollection",
+        features: [
+          {
+            type: "Feature",
+            geometry: {
+              type: "LineString",
+              coordinates: lineStringCoordinates,
+            },
+            properties: {
+              name: line.name,
+              shortName: line.shortName,
+            },
+          },
+        ],
       },
-    ],
-  };
+    };
+  }, [line]);
+
+  const [mapCenter, setMapCenter] = useState<[number, number]>(center);
 
   const handleZoomIn = () => setZoom((prevZoom) => Math.min(prevZoom + 1, 18));
   const handleZoomOut = () => setZoom((prevZoom) => Math.max(prevZoom - 1, 1));
 
   const handleBoundsChange = ({ center, zoom }: { center: [number, number]; zoom: number }) => {
-    setCenter(center);
+    setMapCenter(center);
     setZoom(zoom);
   };
 
@@ -53,7 +63,7 @@ export function ToulouseMap({ line, stopPointsWithSchedules }: ToulouseMapProps)
 
   return (
     <div className="relative">
-      <Map height={600} defaultCenter={center} zoom={zoom} onBoundsChanged={handleBoundsChange}>
+      <Map height={600} center={mapCenter} zoom={zoom} onBoundsChanged={handleBoundsChange}>
         <GeoJson
           data={geoJsonData}
           styleCallback={(feature: { geometry: { type: string } }, hover: boolean) => {

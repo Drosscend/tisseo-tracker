@@ -7,7 +7,7 @@ import { LineError } from "@/components/tisseo/line-details/line-error";
 import { LineInfos } from "@/components/tisseo/line-details/line-infos";
 import { LineStops } from "@/components/tisseo/line-details/line-stops";
 import { Messages } from "@/components/tisseo/messages";
-import { ToulouseMap } from "@/components/tisseo/toulouse-map/toulouse-map";
+import { TisseoMap } from "@/components/tisseo/toulouse-map/tisseo-map";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { LineDetails } from "@/lib/tisseo/get-line-details";
 
@@ -49,7 +49,7 @@ export default function LineDetail({ initialData, lineId }: LineDetailProps) {
           <LineStops stopPointsWithSchedules={data.stopPointsWithSchedules} />
         </TabsContent>
         <TabsContent value="map">
-          <ToulouseMap line={data.line} stopPointsWithSchedules={data.stopPointsWithSchedules} />
+          <TisseoMap line={data.line} stopPointsWithSchedules={data.stopPointsWithSchedules} />
         </TabsContent>
       </Tabs>
     </div>
