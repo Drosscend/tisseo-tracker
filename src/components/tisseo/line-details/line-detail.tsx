@@ -24,8 +24,8 @@ export default function LineDetail({ lineId }: LineDetailProps) {
   return (
     <div className="mx-auto grid w-full max-w-6xl gap-2">
       <div className="flex items-center justify-between">
-        <h1 className="flex text-3xl font-semibold">
-          <TisseoIcon mode={data.line.transportMode.name} color={data.line.bgXmlColor} className="size-8" />
+        <h1 className="flex space-x-2 text-3xl font-semibold">
+          <TisseoIcon mode={data.line.transportMode.name} color={data.line.bgXmlColor} className="size-8 shrink-0" />
           <span className="ml-2">
             Ligne {data.line.shortName} - {data.line.name}
           </span>
