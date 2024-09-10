@@ -7,9 +7,9 @@ const REFRESH_INTERVAL = 60000;
 
 const fetcher = (lineId: string) => getLineData(lineId);
 
-export function useLineDataRefresh(lineId: string, initialData: LineDetails) {
-  const { data, error, isLoading, mutate } = useSWR(lineId, fetcher, {
-    fallbackData: initialData,
+export function useLineDataRefresh(lineId: string) {
+  const { data, error, isLoading, isValidating, mutate } = useSWR(lineId, fetcher, {
+    revalidateOnFocus: true,
   });
 
   const [timeUntilRefresh, setTimeUntilRefresh] = useState(REFRESH_INTERVAL / 1000);
@@ -55,5 +55,7 @@ export function useLineDataRefresh(lineId: string, initialData: LineDetails) {
     };
   }, [mutate, resetTimer]);
 
-  return { data, error, isLoading, timeUntilRefresh, handleManualRefresh };
+  const isRefreshing = isValidating || isLoading;
+
+  return { data, error, isRefreshing, timeUntilRefresh, handleManualRefresh };
 }

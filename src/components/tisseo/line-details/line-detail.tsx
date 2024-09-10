@@ -12,15 +12,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { LineDetails } from "@/lib/tisseo/get-line-details";
 
 interface LineDetailProps {
-  initialData: LineDetails;
   lineId: string;
 }
 
-export default function LineDetail({ initialData, lineId }: LineDetailProps) {
-  const { data, error, isLoading, timeUntilRefresh, handleManualRefresh } = useLineDataRefresh(lineId, initialData);
+export default function LineDetail({ lineId }: LineDetailProps) {
+  const { data, error, isRefreshing, timeUntilRefresh, handleManualRefresh } = useLineDataRefresh(lineId);
 
   if (error) return <LineError />;
-  if (!data || isLoading) return <LineDetailFallback />;
+  if (!data) return <LineDetailFallback />;
 
   return (
     <div className="mx-auto grid w-full max-w-6xl gap-2">
@@ -31,9 +30,13 @@ export default function LineDetail({ initialData, lineId }: LineDetailProps) {
             Ligne {data.line.shortName} - {data.line.name}
           </span>
         </h1>
-        <button onClick={handleManualRefresh} className="cursor-pointer text-sm text-gray-500 transition-colors hover:text-gray-700">
-          Prochain rafraîchissement dans : {timeUntilRefresh} secondes
-        </button>
+
+        <div className="flex flex-col items-end">
+          <button onClick={handleManualRefresh} className="cursor-pointer text-sm text-gray-500 transition-colors hover:text-gray-700">
+            Prochain rafraîchissement dans : {timeUntilRefresh} secondes
+          </button>
+          {isRefreshing && <span className="text-xs text-blue-500">Actualisation en cours...</span>}
+        </div>
       </div>
       <Tabs defaultValue="infos" className="w-full">
         <TabsList>

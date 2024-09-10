@@ -26,7 +26,7 @@ async function LineDetailWrapper({ lineId }: { lineId: string }) {
     return <LineError />;
   }
 
-  return <LineDetail initialData={data} lineId={lineId} />;
+  return <LineDetail lineId={lineId} />;
 }
 
 export default function Page({ params }: { params: { lineId: string } }) {
