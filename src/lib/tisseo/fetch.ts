@@ -50,6 +50,7 @@ export async function cachedFetch<T extends ApiResponse>(url: string, init: Fetc
 
   const fetchAndProcessData = async () => {
     const data = await fetchData<T>(url, init);
+    // console.log(url);
 
     if (data.expirationDate && cacheOptions.dynamicRevalidation !== false) {
       const timeUntilExpiration = getTimeUntilExpiration(data.expirationDate);
