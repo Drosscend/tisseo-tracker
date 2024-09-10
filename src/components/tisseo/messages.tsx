@@ -6,7 +6,8 @@ import { cn } from "@/lib/utils";
 export function Messages({ messages }: { messages: Message[] }) {
   return (
     <Accordion type="multiple" className="w-full space-y-2">
-      {messages && messages.length > 0 ? (
+      {messages &&
+        messages.length > 0 &&
         messages.map((message, index) => (
           <AccordionItem
             key={index}
@@ -30,10 +31,7 @@ export function Messages({ messages }: { messages: Message[] }) {
               <div className="p-6 pt-0" dangerouslySetInnerHTML={{ __html: message.content }} />
             </AccordionContent>
           </AccordionItem>
-        ))
-      ) : (
-        <p>Aucun message pour le moment.</p>
-      )}
+        ))}
     </Accordion>
   );
 }

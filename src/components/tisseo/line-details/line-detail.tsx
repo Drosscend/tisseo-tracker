@@ -43,7 +43,7 @@ export default function LineDetail({ initialData, lineId }: LineDetailProps) {
         </TabsList>
         <TabsContent value="infos" className="flex flex-col gap-2">
           <LineInfos line={data.line} />
-          <Messages messages={data.line.messages} />
+          {data.line.messages?.length > 0 && <Messages messages={data.line.messages} />}
         </TabsContent>
         <TabsContent value="stops">
           <LineStops stopPointsWithSchedules={data.stopPointsWithSchedules} />
