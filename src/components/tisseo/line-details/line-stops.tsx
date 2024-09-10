@@ -1,4 +1,4 @@
-import { formatDistanceToNowStrict, isSameMinute } from "date-fns";
+import { addSeconds, formatDistanceToNowStrict, isAfter, isBefore, isSameMinute } from "date-fns";
 import { format } from "date-fns/format";
 import { fr } from "date-fns/locale/fr";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -27,18 +27,20 @@ export function LineStops({ stopPointsWithSchedules }: { stopPointsWithSchedules
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {stop.schedules.stopAreas[0].schedules[0].journeys.map((journey, journeyIndex) => (
-                    <TableRow key={journeyIndex}>
-                      <TableCell>{format(new Date(journey.dateTime), "HH:mm", { locale: fr })}</TableCell>
-                      <TableCell>
-                        {isSameMinute(new Date(journey.dateTime), new Date()) ? (
-                          <span className="font-bold text-green-600">{"À l'approche"}</span>
-                        ) : (
-                          <span>{formatDistanceToNowStrict(new Date(journey.dateTime), { locale: fr })}</span>
-                        )}
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  {stop.schedules.stopAreas[0].schedules[0].journeys
+                    .filter((journey) => isAfter(new Date(journey.dateTime), addSeconds(new Date(), -15)))
+                    .map((journey, journeyIndex) => (
+                      <TableRow key={journeyIndex}>
+                        <TableCell>{format(new Date(journey.dateTime), "HH:mm", { locale: fr })}</TableCell>
+                        <TableCell>
+                          {isSameMinute(new Date(journey.dateTime), new Date()) ? (
+                            <span className="animate-pulse font-bold text-green-600">{"À l'approche"}</span>
+                          ) : (
+                            <span>{formatDistanceToNowStrict(new Date(journey.dateTime), { locale: fr })}</span>
+                          )}
+                        </TableCell>
+                      </TableRow>
+                    ))}
                 </TableBody>
               </Table>
             </div>

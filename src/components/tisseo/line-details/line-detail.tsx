@@ -35,7 +35,7 @@ export default function LineDetail({ lineId }: LineDetailProps) {
           <button onClick={handleManualRefresh} className="cursor-pointer text-sm text-gray-500 transition-colors hover:text-gray-700">
             Prochain rafraîchissement dans : {timeUntilRefresh} secondes
           </button>
-          {isRefreshing && <span className="text-xs text-blue-500">Actualisation en cours...</span>}
+          {isRefreshing && <span className="animate-pulse text-xs text-blue-500">Actualisation en cours...</span>}
         </div>
       </div>
       <Tabs defaultValue="infos" className="w-full">

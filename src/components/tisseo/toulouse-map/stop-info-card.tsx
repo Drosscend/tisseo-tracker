@@ -15,12 +15,6 @@ export function StopInfoCard({ stop, line }: StopInfoCardProps) {
   const nextJourney = stop.schedules.stopAreas[0].schedules[0].journeys[0];
   const nextStopTime = nextJourney ? new Date(nextJourney.dateTime) : null;
 
-  const getNextStopText = () => {
-    if (!nextStopTime) return "Aucun arrêt prévu";
-    if (isSameMinute(nextStopTime, new Date())) return "À l'approche";
-    return formatDistanceToNowStrict(nextStopTime, { locale: fr, addSuffix: true });
-  };
-
   return (
     <Card>
       <CardContent className="p-4">
@@ -43,7 +37,16 @@ export function StopInfoCard({ stop, line }: StopInfoCardProps) {
           </div>
           <div className="flex items-center space-x-2">
             <ClockIcon className="size-5" />
-            <span>Prochain arrêt : {getNextStopText()}</span>
+            <span>
+              Prochain arrêt :{" "}
+              {!nextStopTime ? (
+                <span className="font-bold text-red-600">Pas de prochain passage</span>
+              ) : isSameMinute(new Date(nextStopTime), new Date()) ? (
+                <span className="animate-pulse font-bold text-green-600">{"À l'approche"}</span>
+              ) : (
+                <span>{formatDistanceToNowStrict(new Date(nextStopTime), { locale: fr })}</span>
+              )}
+            </span>
           </div>
           <div className="flex items-center space-x-2">
             <InfoIcon className="size-5" />
