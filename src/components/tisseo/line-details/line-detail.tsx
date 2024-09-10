@@ -8,6 +8,7 @@ import { LineInfos } from "@/components/tisseo/line-details/line-infos";
 import { LineStops } from "@/components/tisseo/line-details/line-stops";
 import { Messages } from "@/components/tisseo/messages";
 import { TisseoMap } from "@/components/tisseo/toulouse-map/tisseo-map";
+import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { LineDetails } from "@/lib/tisseo/get-line-details";
 
@@ -16,7 +17,7 @@ interface LineDetailProps {
 }
 
 export default function LineDetail({ lineId }: LineDetailProps) {
-  const { data, error, isRefreshing, timeUntilRefresh, handleManualRefresh } = useLineDataRefresh(lineId);
+  const { data, error, isRefreshing, handleManualRefresh } = useLineDataRefresh(lineId);
 
   if (error) return <LineError />;
   if (!data) return <LineDetailFallback />;
@@ -31,12 +32,10 @@ export default function LineDetail({ lineId }: LineDetailProps) {
           </span>
         </h1>
 
-        <div className="flex flex-col items-end">
-          <button onClick={handleManualRefresh} className="cursor-pointer text-sm text-gray-500 transition-colors hover:text-gray-700">
-            Prochain rafraîchissement dans : {timeUntilRefresh} secondes
-          </button>
+        <Button onClick={handleManualRefresh} className="flex items-center gap-2">
           {isRefreshing && <span className="animate-pulse text-xs text-blue-500">Actualisation en cours...</span>}
-        </div>
+          Rafraîchir
+        </Button>
       </div>
       <Tabs defaultValue="infos" className="w-full">
         <TabsList>
